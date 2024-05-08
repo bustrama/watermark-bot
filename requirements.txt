@@ -1,0 +1,5 @@
+pypdf~=4.2.0
+python-telegram-bot~=20.2
+python-telegram-bot[rate-limiter]
+python-dotenv~=1.0.1
+reportlab~=4.2.0
