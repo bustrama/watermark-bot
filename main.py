@@ -47,6 +47,7 @@ async def process_pdf(update: Update, context: CallbackContext):
             await update.message.reply_text('watermark text is missing')
             return
 
+        logging.info('process_pdf:: loading file')
         message = await update.message.reply_text('Loading file...')
         file = await update.message.document.get_file()
 
@@ -71,14 +72,16 @@ async def process_pdf(update: Update, context: CallbackContext):
         input_pdf = PdfReader(file_bytes)
         pdf_writer = PdfWriter()
 
+        logging.info('process_pdf:: working on pages')
         for i in range(input_pdf.get_num_pages()):
             pdf_page = input_pdf.get_page(i)
             pdf_page.merge_page(watermark_page, over=True)
             pdf_writer.add_page(pdf_page)
 
         # Set the password for the output PDF
-        await message.edit_text('Locking file...')
-        pdf_writer.encrypt(text)
+        # logging.info('process_pdf:: locking file')
+        # await message.edit_text('Locking file...')
+        # pdf_writer.encrypt(text)
 
         buf = BytesIO()
         pdf_writer.write_stream(buf)
